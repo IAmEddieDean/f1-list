@@ -1,19 +1,48 @@
 doctype html
-html(lang='en', ng-app='poseidon')
+html(lang='en', ng-app='f1Feeder')
   head
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Poseidon
+    title F1 Stats
     link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootswatch/3.3.4/superhero/bootstrap.min.css')
     link(rel='stylesheet', href='/vendor/font-awesome/css/font-awesome.min.css')
     link(rel='stylesheet', href=isProd ? '/index.min.css' : '/index.css')
     link(rel='shortcut icon', href='/favicon.ico')
-  body
+  body(ng-controller='f1Controller')
     .container-fluid
       .row
         .col-xs-12
-          h1 Poseidon
+          h1 Formula 1 Statistics Board
+      .row
+        .col-xs-12
+          .form-group
+            .col-xs-9
+              input#inputLarge.form-control.input(type='text', placeholder='Please enter a season year here...', ng-model='year')
+            .col-xs-3
+              a.btn.btn-success.btn-large(ng-click='findYear()') Search
+      .row
+        .col-xs-12
+          table.table.table-striped.table-hover
+            thead
+              tr
+                th #
+                th Driver
+                th Nationality
+                th Constructor
+                th Championship Position
+                th Wins
+                th Points
+            tbody
+              tr(ng-repeat='dude in driverInfo track by $index')
+                td {{dude.Driver.permanentNumber}}
+                td: a(href='{{dude.Driver.url}}', target='_blank'){{dude.Driver.givenName}} {{dude.Driver.familyName}}
+                td {{dude.Driver.nationality}}
+                td: a(href='{{dude.Constructors[0].url}}', target='_blank'){{dude.Constructors[0].name}}
+                td {{dude.position}}
+                td {{dude.wins}}
+                td {{dude.points}}
+
 
     script(src='/vendor/jquery/dist/jquery.min.js')
     script(src='/vendor/bootstrap/dist/js/bootstrap.min.js')
